@@ -1,15 +1,32 @@
-import Head from "next/head";
-import { Inter } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { gameLevels, birds } from "@/config";
-import Block from "@/components/block";
-
-const inter = Inter({ subsets: ["latin"] });
+import { shuffle } from "lodash";
+import Board from "@/components/board";
 
 export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [gameStarted, startGame] = useState(false);
+  const [timerStarted, startPeekTimer] = useState(false);
+  const [peekTime, setPeekTime] = useState(10);
+  const [score, setScore] = useState(0);
+  const timer = useRef(null);
+
+  useEffect(() => {
+    if (timerStarted) {
+      timer.current = setInterval(() => {
+        setPeekTime((peekTime) => peekTime - 1);
+      }, 1000);
+    }
+  }, [timerStarted]);
+
+  useEffect(() => {
+    if (peekTime === 0) {
+      clearInterval(timer.current);
+      startGame(true);
+    }
+  }, [peekTime]);
+
   useEffect(() => {
     let gameCards = [];
     const totalCount = 2;
@@ -21,6 +38,7 @@ export default function Home() {
           id: `${cell + 1}`,
           value: birds[assetIndex],
           title: `${cell + 1}`,
+          found: false,
         });
         if (blockSetCount < totalCount) {
           blockSetCount = blockSetCount + 1;
@@ -34,34 +52,39 @@ export default function Home() {
         }
       }
       const shuffledArray = shuffle(gameCards);
+      setPeekTime(gameLevel.peekTime);
       setBlocks(shuffledArray);
     }
   }, [gameLevel]);
 
-  function shuffle(array) {
-    let currentIndex = array.length,
-      randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex != 0) {
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
+  function checkBlocks(selectedBlocks) {
+    console.log(blocks);
+    if (selectedBlocks.result === "FAIL") {
+      setScore((score) => score - 1);
+    } else {
+      setScore((score) => score + 1);
+      const updatedBlocks = blocks.map((item) => {
+        if (
+          item.value.id === selectedBlocks.block1.id ||
+          item.value.id === selectedBlocks.block2.id
+        ) {
+          return { ...item, found: true };
+        }
+        return { ...item };
+      });
+      console.log(updatedBlocks, "updated");
+      setBlocks(updatedBlocks);
     }
-
-    return array;
   }
 
   return (
-    <>
-      <div class="container mx-auto  h-screen">
-        <h1 class="text-3xl font-bold mx-auto">Memory skills!</h1>
+    <div
+      style={{
+        background: "linear-gradient(to bottom, #ffd700, #cda100, yellow)",
+      }}
+    >
+      <div className="container mx-auto  h-screen">
+        <h1 className="text-3xl font-bold mx-auto">Memory skills!</h1>
         <h2>{gameLevel?.name}</h2>
         {gameLevel === null && (
           <>
@@ -70,7 +93,7 @@ export default function Home() {
               return (
                 <li>
                   <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => setGameLevel(item)}
                   >
                     {item.level}
@@ -80,38 +103,18 @@ export default function Home() {
             })}
           </>
         )}
-
-        {gameLevel !== null && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                maxWidth: `${100 * gameLevel?.rows}px`,
-                maxHeight: `${100 * gameLevel?.rows}px`,
-                flexWrap: "wrap",
-              }}
-            >
-              {blocks.map((item, index) => {
-                const { value, title, id } = item;
-                return (
-                  <Block
-                    title={title}
-                    value={value}
-                    id={id}
-                    gameStarted={gameStarted}
-                  />
-                );
-              })}
-            </div>
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => startGame(true)}
-            >
-              {gameStarted ? "Stop" : "Start"}
-            </button>
-          </>
+        {gameLevel !== null && blocks.length && (
+          <Board
+            gameStarted={gameStarted}
+            gameLevel={gameLevel}
+            blocks={blocks}
+            startLookTimer={() => startPeekTimer(true)}
+            updateBlocks={(selectedBlocks) => checkBlocks(selectedBlocks)}
+          />
         )}
+        {peekTime && gameLevel && <p className="mx-auto">{peekTime}</p>}
+        {gameStarted && <p>Score: {score}</p>}
       </div>
-    </>
+    </div>
   );
 }

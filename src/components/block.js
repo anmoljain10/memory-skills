@@ -1,30 +1,48 @@
 import { useEffect } from "react";
 
-const Block = ({ value, title, id, gameStarted = false }) => {
-  console.log(value);
-
+const Block = ({
+  value,
+  title,
+  id,
+  gameStarted = false,
+  found,
+  onBlockSelected,
+}) => {
   return (
     <div
-      class={`flip-container`}
+      className={`flip-container`}
       id={id}
       onClick={(e) => {
-        if (gameStarted) {
+        if (gameStarted && !found) {
           document.getElementById(id).classList.add("hover");
+          onBlockSelected({ value, id });
         }
       }}
       //   onMouseLeave={(e) => {
       //     document.getElementById(id).classList.remove("hover");
       //   }}
     >
-      <div class="flipper">
-        <div class={`front  ${gameStarted ? "started" : ""}`}>Front</div>
-        <div class={`back  ${gameStarted ? "started" : ""}`}>
-          <img
-            src={`${value?.url}`}
-            style={{ height: "100px", width: "100px" }}
-          />
+      {!gameStarted || found ? (
+        <img
+          src={`${value?.url}`}
+          style={{ height: "100px", width: "100px" }}
+        />
+      ) : (
+        <div className="flipper">
+          <div className={`front  ${gameStarted ? "started" : ""}`}>
+            <img
+              src="block-cover.png"
+              style={{ height: "100px", width: "100px", padding: "2px" }}
+            />
+          </div>
+          <div className={`back  ${gameStarted ? "started" : ""}`}>
+            <img
+              src={`${value?.url}`}
+              style={{ height: "100px", width: "100px" }}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

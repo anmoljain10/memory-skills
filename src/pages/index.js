@@ -1,7 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import { gameLevels, birds } from "@/config";
+import { gameLevels, birds, animals } from "@/config";
 import { shuffle } from "lodash";
 import Board from "@/components/board";
+
+const allBlockTypes = ["animals", "birds"];
+
+const blockTypeData = {
+  animals: animals,
+  birds: birds,
+};
 
 export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
@@ -10,6 +17,7 @@ export default function Home() {
   const [timerStarted, startPeekTimer] = useState(false);
   const [peekTime, setPeekTime] = useState(10);
   const [score, setScore] = useState(0);
+  const [blocksType, setBlocksType] = useState("");
   const timer = useRef(null);
 
   useEffect(() => {
@@ -33,11 +41,16 @@ export default function Home() {
     const totalCount = 2;
     let blockSetCount = 0;
     let assetIndex = 0;
+
+    generateBlockType();
+
+    const blocksTypeArray = blockTypeData[blocksType];
+    console.log(blockTypeData[blocksType], "blocks", blocksType);
     if (gameLevel !== null) {
       for (let cell = 0; cell < gameLevel.rows * gameLevel.columns; cell++) {
         gameCards.push({
           id: `${cell + 1}`,
-          value: birds[assetIndex],
+          value: blocksTypeArray[assetIndex],
           title: `${cell + 1}`,
           found: false,
         });
@@ -57,6 +70,11 @@ export default function Home() {
       setBlocks(shuffledArray);
     }
   }, [gameLevel]);
+
+  function generateBlockType() {
+    const randomIndex = Math.round(Math.random());
+    setBlocksType(allBlockTypes[randomIndex]);
+  }
 
   function checkBlocks(selectedBlocks) {
     console.log(blocks);
@@ -119,6 +137,7 @@ export default function Home() {
               gameStarted={gameStarted}
               gameLevel={gameLevel}
               blocks={blocks}
+              blocksType={blocksType}
               peekTimeStarted={timerStarted}
               updateBlocks={(selectedBlocks) => checkBlocks(selectedBlocks)}
             />

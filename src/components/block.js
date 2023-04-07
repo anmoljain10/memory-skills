@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 const Block = ({
   value,
   title,
@@ -8,6 +6,7 @@ const Block = ({
   found,
   onBlockSelected,
   peekTimeStarted,
+  blocksType,
 }) => {
   return (
     <div
@@ -22,14 +21,18 @@ const Block = ({
     >
       {!gameStarted || found || peekTimeStarted ? (
         <img
-          src={peekTimeStarted || found ? `${value?.url}` : "block-cover.png"}
+          src={
+            peekTimeStarted || found
+              ? `${value?.url}`
+              : `${blocksType}/block-cover.png`
+          }
           style={{ height: "100px", width: "100px" }}
         />
       ) : (
         <div className="flipper">
           <div className={`front  ${gameStarted ? "started" : ""}`}>
             <img
-              src="block-cover.png"
+              src={`${blocksType}/block-cover.png`}
               style={{ height: "100px", width: "100px", padding: "2px" }}
             />
           </div>

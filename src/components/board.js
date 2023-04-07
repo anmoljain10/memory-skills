@@ -8,6 +8,7 @@ const Board = ({
   startLookTimer,
   updateBlocks,
   peekTimeStarted,
+  blocksType,
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
@@ -54,6 +55,7 @@ const Board = ({
           const { value, title, id, found } = item;
           return (
             <Block
+              key={id}
               title={title}
               value={value}
               id={id}
@@ -61,6 +63,7 @@ const Board = ({
               gameStarted={gameStarted}
               onBlockSelected={onBlockSelected}
               peekTimeStarted={peekTimeStarted}
+              blocksType={blocksType}
             />
           );
         })}

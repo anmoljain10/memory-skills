@@ -10,7 +10,7 @@ const Block = ({
 }) => {
   return (
     <div
-      className={`flip-container`}
+      className={`flip-container ${gameStarted ? "cursor-pointer" : ""}`}
       id={id}
       onClick={(e) => {
         if (gameStarted && !found) {

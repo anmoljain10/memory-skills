@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { gameLevels, birds, animals } from "@/config";
 import { shuffle } from "lodash";
 import Board from "@/components/board";
+import GameRules from "@/components/gameRules";
+import GameLevels from "@/components/gameLevels";
+import { initializeBlocks } from "@/utils/initBlocks";
 
 const allBlockTypes = ["animals", "birds"];
 
@@ -38,38 +41,19 @@ export default function Home() {
 
   useEffect(() => {
     let gameCards = [];
-    const totalCount = 2;
-    let blockSetCount = 0;
-    let assetIndex = 0;
-
-    generateBlockType();
-
     const blocksTypeArray = blockTypeData[blocksType];
-    console.log(blockTypeData[blocksType], "blocks", blocksType);
+
     if (gameLevel !== null) {
-      for (let cell = 0; cell < gameLevel.rows * gameLevel.columns; cell++) {
-        gameCards.push({
-          id: `${cell + 1}`,
-          value: blocksTypeArray[assetIndex],
-          title: `${cell + 1}`,
-          found: false,
-        });
-        if (blockSetCount < totalCount) {
-          blockSetCount = blockSetCount + 1;
-        }
-        if (blockSetCount === totalCount) {
-          blockSetCount = 0;
-          assetIndex = assetIndex + 1;
-          if (assetIndex === birds.length) {
-            assetIndex = 0;
-          }
-        }
-      }
+      gameCards = initializeBlocks({ blocksTypeArray, gameLevel });
       const shuffledArray = shuffle(gameCards);
       setPeekTime(gameLevel.peekTime);
       setBlocks(shuffledArray);
     }
   }, [gameLevel]);
+
+  useEffect(() => {
+    generateBlockType();
+  }, []);
 
   function generateBlockType() {
     const randomIndex = Math.round(Math.random());
@@ -114,20 +98,10 @@ export default function Home() {
           <div class="w-1/3 mx-auto" style={{ marginTop: "10%" }}>
             <h2 className="text-center text-3xl mb-4">Select Level</h2>
             <div class="p-5 rounded" style={{ backgroundColor: "#4285F4" }}>
-              <ul className="list-none text-white">
-                {gameLevels.map((item, index) => {
-                  return (
-                    <li>
-                      <div
-                        className="font-bold py-2 px-4 rounded capitalize text-3xl text-center"
-                        onClick={() => setGameLevel(item)}
-                      >
-                        {item.level} - {item.name}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+              <GameLevels
+                gameLevels={gameLevels}
+                onLevelSelect={(level) => setGameLevel(level)}
+              />
             </div>
           </div>
         )}
@@ -155,18 +129,7 @@ export default function Home() {
               {!gameStarted && !timerStarted && (
                 <div class="mt-5" style={{ marginTop: "30%" }}>
                   <h3 class="text-4xl font-bold">Rules:</h3>
-                  <ul class="list-none">
-                    <li>
-                      - You will be give {gameLevel.peekTime} seconds to
-                      remember the image positions.
-                    </li>
-                    <li>- Click on the image to reveal your selection.</li>
-                    <li>- Click on another image to match your selection.</li>
-                    <li>
-                      - For every correct pair, 1 point will be rewarded, for
-                      every wrong pair, 1 point will be deducted.
-                    </li>
-                  </ul>
+                  <GameRules gameLevel={gameLevel} />
                   <div className="controls mt-5">
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"

@@ -45,7 +45,7 @@ const Board = ({
   return (
     <div className="mx-auto">
       <div
-        class="board-container"
+        className="board-container"
         style={{
           maxWidth: `${100 * gameLevel?.rows + 60}px`,
           maxHeight: `${100 * gameLevel?.rows + 60}px`,

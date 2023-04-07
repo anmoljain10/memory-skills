@@ -23,13 +23,13 @@ const animals = [
   { name: "camel", url: "animals/camel.png" },
   { name: "dog", url: "animals/dog.png" },
   { name: "gorilla", url: "animals/gorilla.png" },
-  { name: "cute-bird", url: "animals/cute-bird.png" },
   { name: "koala", url: "animals/koala.png" },
   { name: "lamb", url: "animals/lamb.png" },
   { name: "lion", url: "animals/lion.png" },
   { name: "pig", url: "animals/pig.png" },
   { name: "raqoon", url: "animals/raqoon.png" },
   { name: "squirrel", url: "animals/squirrel.png" },
+  { name: "leopard", url: "animals/leopard.png" },
 ];
 
 export { gameLevels, birds, animals };

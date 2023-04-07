@@ -12,11 +12,14 @@ const Board = ({
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
+  const flipSound = new Audio("/flipcard.mp3");
+  const successSound = new Audio("/success.mp3");
 
   useEffect(() => {
     if (selectedItem1 && selectedItem2) {
       if (selectedItem2?.value?.name === selectedItem1?.value?.name) {
         console.log("Its a match");
+        successSound.play();
         updateBlocks({
           block1: selectedItem1,
           block2: selectedItem2,
@@ -64,6 +67,7 @@ const Board = ({
               onBlockSelected={onBlockSelected}
               peekTimeStarted={peekTimeStarted}
               blocksType={blocksType}
+              flipSound={flipSound}
             />
           );
         })}

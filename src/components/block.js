@@ -7,6 +7,7 @@ const Block = ({
   onBlockSelected,
   peekTimeStarted,
   blocksType,
+  flipSound,
 }) => {
   return (
     <div
@@ -14,8 +15,13 @@ const Block = ({
       id={id}
       onClick={(e) => {
         if (gameStarted && !found) {
-          document.getElementById(id).classList.add("hover");
-          onBlockSelected({ value, id });
+          try {
+            document.getElementById(id).classList.add("hover");
+            flipSound.play();
+            onBlockSelected({ value, id });
+          } catch (e) {
+            console.log(e);
+          }
         }
       }}
     >

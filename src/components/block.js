@@ -7,6 +7,7 @@ const Block = ({
   gameStarted = false,
   found,
   onBlockSelected,
+  peekTimeStarted,
 }) => {
   return (
     <div
@@ -18,13 +19,10 @@ const Block = ({
           onBlockSelected({ value, id });
         }
       }}
-      //   onMouseLeave={(e) => {
-      //     document.getElementById(id).classList.remove("hover");
-      //   }}
     >
-      {!gameStarted || found ? (
+      {!gameStarted || found || peekTimeStarted ? (
         <img
-          src={`${value?.url}`}
+          src={peekTimeStarted || found ? `${value?.url}` : "block-cover.png"}
           style={{ height: "100px", width: "100px" }}
         />
       ) : (

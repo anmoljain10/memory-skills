@@ -1,0 +1,8 @@
+.board-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  border-width: 30px;
+  border-radius: 10px;
+  border-color: #8b4513;
+}

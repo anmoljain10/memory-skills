@@ -82,3 +82,8 @@ a {
     color-scheme: dark;
   }
 }
+
+h1 {
+  font-size: 60px;
+  font-family: "Press Start 2P", cursive;
+}

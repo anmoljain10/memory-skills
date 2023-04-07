@@ -7,6 +7,7 @@ const Board = ({
   gameStarted,
   startLookTimer,
   updateBlocks,
+  peekTimeStarted,
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
@@ -43,15 +44,10 @@ const Board = ({
   return (
     <div className="mx-auto">
       <div
+        class="board-container"
         style={{
-          display: "flex",
-          justifyContent: "space-evenly",
           maxWidth: `${100 * gameLevel?.rows + 60}px`,
           maxHeight: `${100 * gameLevel?.rows + 60}px`,
-          flexWrap: "wrap",
-          borderWidth: "30px",
-          borderRadius: "10px",
-          borderColor: "#8B4513",
         }}
       >
         {blocks.map((item, index) => {
@@ -64,18 +60,11 @@ const Board = ({
               found={found}
               gameStarted={gameStarted}
               onBlockSelected={onBlockSelected}
+              peekTimeStarted={peekTimeStarted}
             />
           );
         })}
       </div>
-      {!gameStarted && (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => startLookTimer(true)}
-        >
-          Start
-        </button>
-      )}
     </div>
   );
 };

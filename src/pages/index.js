@@ -25,6 +25,10 @@ export default function Home() {
   const timer = useRef(null);
   const gameOverTimer = useRef(null);
 
+  const clockSound = useRef(
+    typeof Audio !== "undefined" ? new Audio("./ticking-clock.mp3") : undefined
+  );
+
   useEffect(() => {
     if (timerStarted) {
       timer.current = setInterval(() => {
@@ -46,6 +50,7 @@ export default function Home() {
       clearInterval(timer.current);
       startPeekTimer(false);
       startGame(true);
+      clockSound.current?.play();
     }
   }, [peekTime]);
 
@@ -58,6 +63,7 @@ export default function Home() {
       } else {
         // alert("you win!");
       }
+      clockSound?.current?.pause();
     }
   }, [gameOverTime]);
 
@@ -141,7 +147,9 @@ export default function Home() {
                   style={{ marginTop: "30%" }}
                 >
                   <div
-                    class={`text-5xl ${gameOverTime < 5 ? "text-red-500" : ""}`}
+                    class={`text-5xl ${
+                      gameOverTime < 5 ? "text-red-500 time-left" : ""
+                    }`}
                   >
                     Time left
                   </div>
@@ -154,7 +162,12 @@ export default function Home() {
                   </div>
                 </div>
               )}
-              {timerStarted && <div>{peekTime}</div>}
+              {timerStarted && (
+                <div class="font-bold">
+                  <div class="text-white text-4xl text-center">Starting in</div>
+                  <div class="text-white text-6xl text-center">{peekTime}</div>
+                </div>
+              )}
               {!gameStarted && !timerStarted && (
                 <div class="mt-5" style={{ marginTop: "30%" }}>
                   <h3 class="text-4xl font-bold">Rules:</h3>

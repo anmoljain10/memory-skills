@@ -30,7 +30,6 @@ const Board = ({
         setTimeout(() => {
           document.getElementById(selectedItem2.id).classList.remove("hover");
           document.getElementById(selectedItem1.id).classList.remove("hover");
-          wrongSound.play();
           updateBlocks({ result: "FAIL" });
         }, 1000);
       }

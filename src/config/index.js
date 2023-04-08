@@ -1,6 +1,20 @@
 const gameLevels = [
-  { level: "easy", rows: 4, columns: 4, name: "4x4", peekTime: 10 },
-  { level: "medium", rows: 6, columns: 6, name: "6x6", peekTime: 15 },
+  {
+    level: "easy",
+    rows: 4,
+    columns: 4,
+    name: "4x4",
+    peekTime: 10,
+    gameOverTime: 30,
+  },
+  {
+    level: "medium",
+    rows: 6,
+    columns: 6,
+    name: "6x6",
+    peekTime: 15,
+    gameOverTime: 60,
+  },
 ];
 
 const birds = [

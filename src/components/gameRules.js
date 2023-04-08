@@ -8,8 +8,8 @@ const GameRules = ({ gameLevel }) => {
       <li>- Click on the image to reveal your selection.</li>
       <li>- Click on another image to match your selection.</li>
       <li>
-        - For every correct pair, 1 point will be rewarded, for every wrong
-        pair, 1 point will be deducted.
+        - For every correct pair, 2 seconds will be rewarded, for every wrong
+        pair, 3 seconds will be deducted.
       </li>
     </ul>
   );

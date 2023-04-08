@@ -12,8 +12,9 @@ const Board = ({
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
-  const flipSound = new Audio("/flipcard.mp3");
+  const flipSound = new Audio("/click-button.mp3");
   const successSound = new Audio("/success.mp3");
+  const wrongSound = new Audio("/wrong.mp3");
 
   useEffect(() => {
     if (selectedItem1 && selectedItem2) {
@@ -29,6 +30,7 @@ const Board = ({
         setTimeout(() => {
           document.getElementById(selectedItem2.id).classList.remove("hover");
           document.getElementById(selectedItem1.id).classList.remove("hover");
+          wrongSound.play();
           updateBlocks({ result: "FAIL" });
         }, 1000);
       }

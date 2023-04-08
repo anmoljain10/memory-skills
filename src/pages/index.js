@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { gameLevels, birds, animals } from "@/config";
-import { shuffle } from "lodash";
+import { shuffle, find } from "lodash";
 import Board from "@/components/board";
 import GameRules from "@/components/gameRules";
 import GameLevels from "@/components/gameLevels";
@@ -21,7 +21,9 @@ export default function Home() {
   const [peekTime, setPeekTime] = useState(10);
   const [score, setScore] = useState(0);
   const [blocksType, setBlocksType] = useState("");
+  const [gameOverTime, setGameOverTime] = useState(0);
   const timer = useRef(null);
+  const gameOverTimer = useRef(null);
 
   useEffect(() => {
     if (timerStarted) {
@@ -32,12 +34,32 @@ export default function Home() {
   }, [timerStarted]);
 
   useEffect(() => {
+    gameOverTimer.current = setInterval(() => {
+      if (gameOverTime > 0) {
+        setGameOverTime((gameOverTime) => gameOverTime - 1);
+      }
+    }, 1000);
+  }, [gameStarted]);
+
+  useEffect(() => {
     if (peekTime === 0) {
       clearInterval(timer.current);
       startPeekTimer(false);
       startGame(true);
     }
   }, [peekTime]);
+
+  useEffect(() => {
+    if (gameOverTime === 0 && gameStarted) {
+      clearInterval(gameOverTimer.current);
+      const anyUnmatchedBlocks = find(blocks, { found: false });
+      if (anyUnmatchedBlocks) {
+        // alert("You lose!");
+      } else {
+        // alert("you win!");
+      }
+    }
+  }, [gameOverTime]);
 
   useEffect(() => {
     let gameCards = [];
@@ -47,6 +69,7 @@ export default function Home() {
       gameCards = initializeBlocks({ blocksTypeArray, gameLevel });
       const shuffledArray = shuffle(gameCards);
       setPeekTime(gameLevel.peekTime);
+      setGameOverTime(gameLevel.gameOverTime);
       setBlocks(shuffledArray);
     }
   }, [gameLevel]);
@@ -63,9 +86,13 @@ export default function Home() {
   function checkBlocks(selectedBlocks) {
     console.log(blocks);
     if (selectedBlocks.result === "FAIL") {
-      setScore((score) => score - 1);
+      // setScore((score) => score - 1);
+      setGameOverTime((gameOverTime) =>
+        gameOverTime - 3 <= 0 ? 0 : gameOverTime - 3
+      );
     } else {
-      setScore((score) => score + 1);
+      setGameOverTime((gameOverTime) => gameOverTime + 2);
+      // setScore((score) => score + 1);
       const updatedBlocks = blocks.map((item) => {
         if (
           item.value.id === selectedBlocks.block1.id ||
@@ -81,23 +108,15 @@ export default function Home() {
   }
 
   return (
-    <div
-      style={{
-        background:
-          "linear-gradient(to bottom, #ffd700, #cda100, #ffcc00,  #cc9900)",
-      }}
-    >
+    <div>
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
-        <h1
-          className="mx-auto text-center text-purple text-8xl pt-4 font-bold"
-          style={{ color: "#990099" }}
-        >
+        <h1 className="mx-auto text-center text-purple text-8xl pt-4 font-bold">
           Memory skills
         </h1>
         {gameLevel === null && (
-          <div class="w-1/3 mx-auto" style={{ marginTop: "10%" }}>
-            <h2 className="text-center text-3xl mb-4">Select Level</h2>
-            <div class="p-5 rounded" style={{ backgroundColor: "#4285F4" }}>
+          <div class="sm:w-1/4 mx-auto" style={{ marginTop: "10%" }}>
+            <h2 className="text-center text-3xl mb-4">Level</h2>
+            <div class="p-5 rounded">
               <GameLevels
                 gameLevels={gameLevels}
                 onLevelSelect={(level) => setGameLevel(level)}
@@ -106,7 +125,7 @@ export default function Home() {
           </div>
         )}
         {gameLevel !== null && blocks.length && (
-          <div class="grid grid-cols-2 mt-10">
+          <div class="grid lg:grid-cols-2 mt-10">
             <Board
               gameStarted={gameStarted}
               gameLevel={gameLevel}
@@ -121,8 +140,18 @@ export default function Home() {
                   class="text-4xl font-bold text-center"
                   style={{ marginTop: "30%" }}
                 >
-                  <div class="text-5xl">Score</div>
-                  <div class="text-7xl">{score}</div>
+                  <div
+                    class={`text-5xl ${gameOverTime < 5 ? "text-red-500" : ""}`}
+                  >
+                    Time left
+                  </div>
+                  <div
+                    class={`text-7xl text-transition ${
+                      gameOverTime < 5 ? "text-red-500" : ""
+                    }`}
+                  >
+                    {gameOverTime}
+                  </div>
                 </div>
               )}
               {timerStarted && <div>{peekTime}</div>}

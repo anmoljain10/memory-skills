@@ -1,17 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import { gameLevels, birds, animals } from "@/config";
+import { gameLevels, blockTypeData } from "@/config";
 import { shuffle, find } from "lodash";
 import Board from "@/components/board";
 import GameRules from "@/components/gameRules";
 import GameLevels from "@/components/gameLevels";
 import { initializeBlocks } from "@/utils/initBlocks";
 
-const allBlockTypes = ["animals", "birds"];
-
-const blockTypeData = {
-  animals: animals,
-  birds: birds,
-};
+const allBlockTypes = ["animals", "birds", "cars"];
 
 export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
@@ -85,7 +80,7 @@ export default function Home() {
   }, []);
 
   function generateBlockType() {
-    const randomIndex = Math.round(Math.random());
+    const randomIndex = Math.round(Math.random() * 2);
     setBlocksType(allBlockTypes[randomIndex]);
   }
 

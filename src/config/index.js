@@ -46,4 +46,24 @@ const animals = [
   { name: "leopard", url: "animals/leopard.png" },
 ];
 
-export { gameLevels, birds, animals };
+const cars = [
+  { name: "audi-3", url: "cars/audi-3.png" },
+  { name: "bentley", url: "cars/bentley.png" },
+  { name: "black", url: "cars/black.png" },
+  { name: "fake", url: "cars/fake.png" },
+  { name: "lambo", url: "cars/lambo.png" },
+  { name: "mercedes", url: "cars/mercedes.png" },
+  { name: "mustang", url: "cars/mustang.png" },
+  { name: "nissan", url: "cars/nissan.png" },
+  { name: "red", url: "cars/red.png" },
+  { name: "suv", url: "cars/suv.png" },
+  { name: "taxi", url: "cars/taxi.png" },
+];
+
+const blockTypeData = {
+  animals: animals,
+  birds: birds,
+  cars: cars,
+};
+
+export { gameLevels, birds, animals, cars, blockTypeData };

@@ -3,7 +3,10 @@ const GameLevels = ({ gameLevels, onLevelSelect }) => {
     <ul className="list-none text-white">
       {gameLevels.map((item, index) => {
         return (
-          <li className="cursor-pointer border rounded mb-3" key={item.level}>
+          <li
+            className={`cursor-pointer border rounded mb-3 hover:bg-white hover:text-my-purple`}
+            key={item.level}
+          >
             <div
               className="font-bold py-2 px-4 rounded capitalize text-3xl text-center"
               onClick={() => onLevelSelect(item)}

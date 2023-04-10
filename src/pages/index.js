@@ -199,7 +199,12 @@ export default function Home() {
         </h1>
         {gameLevel === null && (
           <div class="sm:w-1/4 mx-auto" style={{ marginTop: "10%" }}>
-            <h2 className="text-center text-3xl mb-4 font-bungee">Level</h2>
+            <h2
+              className="text-center text-3xl mb-4 font-bungee"
+              style={{ color: "#602040" }}
+            >
+              Level
+            </h2>
             <div class="p-5 rounded">
               <GameLevels
                 gameLevels={gameLevels}

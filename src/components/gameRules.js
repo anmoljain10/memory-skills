@@ -8,9 +8,10 @@ const GameRules = ({ gameLevel }) => {
       <li>2. Click on the image to reveal your selection.</li>
       <li>3. Click on another image to match your selection.</li>
       <li>
-        4. For every correct pair, 2 seconds will be rewarded, for every wrong
+        4. For every matched pair, 2 seconds will be rewarded, for every wrong
         pair, 2 seconds will be deducted.
       </li>
+      <li>5. Player matching all the blocks before time wins the game!</li>
     </ul>
   );
 };

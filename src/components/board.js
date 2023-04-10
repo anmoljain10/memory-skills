@@ -11,6 +11,8 @@ const Board = ({
   blocksType,
   gameOverTime,
   soundOn,
+  timerStarted,
+  peekTime,
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
@@ -58,20 +60,27 @@ const Board = ({
         <div class="font-bold text-center">
           <div
             class={`text-xl ${
-              gameOverTime < 5 ? "text-red-500 time-left" : "text-green-500"
+              gameOverTime < 10 ? "text-red-500 time-left" : "text-green-500"
             }`}
           >
             Time left
           </div>
           <div
             class={`text-4xl text-transition ${
-              gameOverTime < 5 ? "text-red-600" : "text-green-600"
+              gameOverTime < 10 ? "text-red-600" : "text-green-600"
             }`}
           >
-            {gameOverTime}
+            {gameOverTime}s
           </div>
         </div>
       </div>
+      {timerStarted && (
+        <div className="absolute left-0 -top-7 rounded bg-white px-5">
+          <div class="font-bold">
+            <div class=" text-xl text-center">Starting in : {peekTime}s</div>
+          </div>
+        </div>
+      )}
 
       <div
         className="board-container"

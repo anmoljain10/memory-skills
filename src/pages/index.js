@@ -25,6 +25,7 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [showResModal, setResModalVisible] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
+  const [gamePaused, setGamePaused] = useState(false);
 
   const clockSound = useRef(
     typeof Audio !== "undefined" ? new Audio("./ticking-clock.mp3") : undefined
@@ -76,6 +77,14 @@ export default function Home() {
   }, [peekTime]);
 
   useEffect(() => {
+    if (clockSound.current.isPaused && soundOn && gameStarted) {
+      clockSound.current?.play();
+    } else if (!clockSound.current.isPaused && !soundOn) {
+      clockSound.current?.pause();
+    }
+  }, [soundOn]);
+
+  useEffect(() => {
     const anyUnmatchedBlocks = find(blocks, { found: false });
     if (gameOverTime === 0 && gameStarted) {
       if (anyUnmatchedBlocks) {
@@ -124,6 +133,9 @@ export default function Home() {
       setBlocks(shuffledArray);
       setGameOverTime(gameLevel.gameOverTime);
       setResult(null);
+
+      clockSound?.current?.pause();
+
       if (timer.current) {
         clearInterval(timer.current);
         timer.current = null;
@@ -166,6 +178,19 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    if (gamePaused) {
+      clearInterval(gameOverTimer.current);
+      clockSound.current.pause();
+    } else {
+      gameOverTimer.current = setInterval(() => {
+        if (gameOverTime > 0) {
+          setGameOverTime((gameOverTime) => gameOverTime - 1);
+        }
+      }, 1000);
+    }
+  }, [gamePaused]);
+
   return (
     <div>
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
@@ -194,6 +219,8 @@ export default function Home() {
               updateBlocks={(selectedBlocks) => checkBlocks(selectedBlocks)}
               gameOverTime={gameOverTime}
               soundOn={soundOn}
+              timerStarted={timerStarted}
+              peekTime={peekTime}
             />
 
             <div className="flex items-end">
@@ -205,27 +232,39 @@ export default function Home() {
                   Rules
                 </h3>
                 <GameRules gameLevel={gameLevel} />
-                <div className="controls mt-5">
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => startPeekTimer(true)}
-                  >
-                    Start
-                  </button>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => setGameLevel(null)}
-                  >
-                    Reset
-                  </button>
-                </div>
+                {!timerStarted && !gameStarted && (
+                  <div className="controls mt-5">
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                      onClick={() => startPeekTimer(true)}
+                    >
+                      Start
+                    </button>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => onChooseLevel()}
+                    >
+                      New Game
+                    </button>
+                  </div>
+                )}
+                {gameStarted && (
+                  <div className="controls mt-5">
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                      onClick={() => setGamePaused((gamePaused) => !gamePaused)}
+                    >
+                      {gamePaused ? "Resume" : "Pause"}
+                    </button>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => onChooseLevel()}
+                    >
+                      New Game
+                    </button>
+                  </div>
+                )}
               </div>
-              {timerStarted && (
-                <div class="font-bold">
-                  <div class="text-white text-4xl text-center">Starting in</div>
-                  <div class="text-white text-6xl text-center">{peekTime}</div>
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -248,16 +287,7 @@ export default function Home() {
                     setResModalVisible(false);
                   }}
                 >
-                  Choose Level
-                </button>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => {
-                    resetGame();
-                    setResModalVisible(false);
-                  }}
-                >
-                  Replay
+                  New Game
                 </button>
               </div>
             </div>
@@ -277,16 +307,7 @@ export default function Home() {
                     setResModalVisible(false);
                   }}
                 >
-                  Choose Level
-                </button>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => {
-                    resetGame();
-                    setResModalVisible(false);
-                  }}
-                >
-                  Replay
+                  New Game
                 </button>
               </div>
             </div>

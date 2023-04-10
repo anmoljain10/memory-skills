@@ -8,6 +8,7 @@ const Block = ({
   peekTimeStarted,
   blocksType,
   flipSound,
+  soundOn,
 }) => {
   return (
     <div
@@ -17,7 +18,9 @@ const Block = ({
         if (gameStarted && !found) {
           try {
             document.getElementById(id).classList.add("hover");
-            flipSound.play();
+            if (soundOn) {
+              flipSound.play();
+            }
             onBlockSelected({ value, id });
           } catch (e) {
             console.log(e);

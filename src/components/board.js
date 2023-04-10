@@ -10,6 +10,7 @@ const Board = ({
   peekTimeStarted,
   blocksType,
   gameOverTime,
+  soundOn,
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
@@ -20,7 +21,9 @@ const Board = ({
     if (selectedItem1 && selectedItem2) {
       if (selectedItem2?.value?.name === selectedItem1?.value?.name) {
         console.log("Its a match");
-        successSound.play();
+        if (soundOn) {
+          successSound.play();
+        }
         updateBlocks({
           block1: selectedItem1,
           block2: selectedItem2,
@@ -91,6 +94,7 @@ const Board = ({
               peekTimeStarted={peekTimeStarted}
               blocksType={blocksType}
               flipSound={flipSound}
+              soundOn={soundOn}
             />
           );
         })}

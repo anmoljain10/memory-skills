@@ -6,6 +6,8 @@ import GameRules from "@/components/gameRules";
 import GameLevels from "@/components/gameLevels";
 import { initializeBlocks } from "@/utils/initBlocks";
 import Modal from "@/components/modal";
+import { faVolumeMute, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const allBlockTypes = ["animals", "birds", "cars"];
 
@@ -22,6 +24,7 @@ export default function Home() {
   const gameOverTimer = useRef(null);
   const [result, setResult] = useState(null);
   const [showResModal, setResModalVisible] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
 
   const clockSound = useRef(
     typeof Audio !== "undefined" ? new Audio("./ticking-clock.mp3") : undefined
@@ -61,9 +64,13 @@ export default function Home() {
       clearInterval(timer.current);
       startPeekTimer(false);
       startGame(true);
-      startSound.current?.play();
+      if (soundOn) {
+        startSound.current?.play();
+      }
       setTimeout(() => {
-        clockSound.current?.play();
+        if (soundOn) {
+          clockSound.current?.play();
+        }
       }, 50);
     }
   }, [peekTime]);
@@ -74,16 +81,20 @@ export default function Home() {
       if (anyUnmatchedBlocks) {
         setResult("LOSE");
         clearInterval(gameOverTimer.current);
-        clockSound?.current?.pause();
-        loseSound.current.play();
+        if (soundOn) {
+          clockSound?.current?.pause();
+          loseSound.current.play();
+        }
         setResModalVisible(true);
       }
     } else if (!anyUnmatchedBlocks && gameStarted) {
       // if player wins
       setResult("WIN");
       clearInterval(gameOverTimer.current);
-      clockSound?.current?.pause();
-      winSound.current?.play();
+      if (soundOn) {
+        clockSound?.current?.pause();
+        winSound.current?.play();
+      }
       setResModalVisible(true);
     }
   }, [gameOverTime]);
@@ -182,6 +193,7 @@ export default function Home() {
               peekTimeStarted={timerStarted}
               updateBlocks={(selectedBlocks) => checkBlocks(selectedBlocks)}
               gameOverTime={gameOverTime}
+              soundOn={soundOn}
             />
 
             <div className="flex items-end">
@@ -281,6 +293,15 @@ export default function Home() {
           )}
         </div>
       </Modal>
+      <div class="absolute right-10 bottom-10">
+        <FontAwesomeIcon
+          icon={soundOn ? faVolumeUp : faVolumeMute}
+          fontSize={40}
+          color={"white"}
+          className="cursor-pointer"
+          onClick={() => setSoundOn((soundOn) => !soundOn)}
+        />
+      </div>
     </div>
   );
 }

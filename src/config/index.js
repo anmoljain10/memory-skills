@@ -5,7 +5,7 @@ const gameLevels = [
     columns: 4,
     name: "4x4",
     peekTime: 10,
-    gameOverTime: 30,
+    gameOverTime: 40,
   },
   {
     level: "medium",

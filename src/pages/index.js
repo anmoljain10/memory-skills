@@ -5,6 +5,7 @@ import Board from "@/components/board";
 import GameRules from "@/components/gameRules";
 import GameLevels from "@/components/gameLevels";
 import { initializeBlocks } from "@/utils/initBlocks";
+import Modal from "@/components/modal";
 
 const allBlockTypes = ["animals", "birds", "cars"];
 
@@ -19,9 +20,19 @@ export default function Home() {
   const [gameOverTime, setGameOverTime] = useState(0);
   const timer = useRef(null);
   const gameOverTimer = useRef(null);
+  const [result, setResult] = useState(null);
+  const [showResModal, setResModalVisible] = useState(false);
 
   const clockSound = useRef(
     typeof Audio !== "undefined" ? new Audio("./ticking-clock.mp3") : undefined
+  );
+
+  const loseSound = useRef(
+    typeof Audio !== "undefined" ? new Audio("./wrong.mp3") : undefined
+  );
+
+  const winSound = useRef(
+    typeof Audio !== "undefined" ? new Audio("./good.mp3") : undefined
   );
 
   useEffect(() => {
@@ -38,6 +49,7 @@ export default function Home() {
         setGameOverTime((gameOverTime) => gameOverTime - 1);
       }
     }, 1000);
+    () => clearInterval(gameOverTime.current);
   }, [gameStarted]);
 
   useEffect(() => {
@@ -50,29 +62,27 @@ export default function Home() {
   }, [peekTime]);
 
   useEffect(() => {
+    const anyUnmatchedBlocks = find(blocks, { found: false });
     if (gameOverTime === 0 && gameStarted) {
-      clearInterval(gameOverTimer.current);
-      const anyUnmatchedBlocks = find(blocks, { found: false });
       if (anyUnmatchedBlocks) {
-        // alert("You lose!");
-      } else {
-        // alert("you win!");
+        setResult("LOSE");
+        clearInterval(gameOverTimer.current);
+        clockSound?.current?.pause();
+        loseSound.current.play();
+        setResModalVisible(true);
       }
+    } else if (!anyUnmatchedBlocks && gameStarted) {
+      // if player wins
+      setResult("WIN");
+      clearInterval(gameOverTimer.current);
       clockSound?.current?.pause();
+      winSound.current?.play();
+      setResModalVisible(true);
     }
   }, [gameOverTime]);
 
   useEffect(() => {
-    let gameCards = [];
-    const blocksTypeArray = blockTypeData[blocksType];
-
-    if (gameLevel !== null) {
-      gameCards = initializeBlocks({ blocksTypeArray, gameLevel });
-      const shuffledArray = shuffle(gameCards);
-      setPeekTime(gameLevel.peekTime);
-      setGameOverTime(gameLevel.gameOverTime);
-      setBlocks(shuffledArray);
-    }
+    resetGame();
   }, [gameLevel]);
 
   useEffect(() => {
@@ -82,6 +92,36 @@ export default function Home() {
   function generateBlockType() {
     const randomIndex = Math.round(Math.random() * 2);
     setBlocksType(allBlockTypes[randomIndex]);
+  }
+
+  function resetGame() {
+    try {
+      let gameCards = [];
+      const blocksTypeArray = blockTypeData[blocksType];
+      gameCards = initializeBlocks({ blocksTypeArray, gameLevel });
+      const shuffledArray = shuffle(gameCards);
+      startGame(false);
+      startPeekTimer(false);
+      setPeekTime(gameLevel.peekTime);
+      setBlocks(shuffledArray);
+      setGameOverTime(gameLevel.gameOverTime);
+      setResult(null);
+      if (timer.current) {
+        clearInterval(timer.current);
+        timer.current = null;
+      }
+      if (gameOverTimer.current) {
+        clearInterval(gameOverTimer.current);
+        gameOverTimer.current = null;
+      }
+    } catch (e) {
+      console.log("error resetting game!");
+    }
+  }
+
+  function onChooseLevel() {
+    setGameLevel(null);
+    resetGame();
   }
 
   function checkBlocks(selectedBlocks) {
@@ -187,6 +227,69 @@ export default function Home() {
           </div>
         )}
       </div>
+      <Modal isVisible={showResModal}>
+        <div className="p-10 text-center">
+          {result === "WIN" ? (
+            <div className="win-body">
+              <h1>You Win!</h1>
+              <img
+                src="win.png"
+                className="mx-auto"
+                style={{ height: "auto", width: "100px" }}
+              />
+              <div className="controls mt-5">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                  onClick={() => {
+                    onChooseLevel();
+                    setResModalVisible(false);
+                  }}
+                >
+                  Choose Level
+                </button>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => {
+                    resetGame();
+                    setResModalVisible(false);
+                  }}
+                >
+                  Replay
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="lose-body">
+              <h1>Game Over!</h1>
+              <img
+                src="ghost.png"
+                className="mx-auto"
+                style={{ height: "auto", width: "100px" }}
+              />
+              <div className="controls mt-5">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                  onClick={() => {
+                    onChooseLevel();
+                    setResModalVisible(false);
+                  }}
+                >
+                  Choose Level
+                </button>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => {
+                    resetGame();
+                    setResModalVisible(false);
+                  }}
+                >
+                  Replay
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 }

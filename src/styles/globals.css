@@ -119,3 +119,8 @@ h1 {
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.win-body h1,
+.lose-body h1 {
+  font-family: cursive;
+}

@@ -4,7 +4,7 @@ const gameLevels = [
     rows: 4,
     columns: 4,
     name: "4x4",
-    peekTime: 10,
+    peekTime: 15,
     gameOverTime: 40,
   },
   {
@@ -12,7 +12,7 @@ const gameLevels = [
     rows: 6,
     columns: 6,
     name: "6x6",
-    peekTime: 15,
+    peekTime: 20,
     gameOverTime: 60,
   },
 ];
@@ -60,10 +60,25 @@ const cars = [
   { name: "taxi", url: "cars/taxi.png" },
 ];
 
+const random = [
+  { name: "earth", url: "random/earth.png" },
+  { name: "family", url: "random/family.png" },
+  { name: "gift", url: "random/gift.png" },
+  { name: "japan", url: "random/japan.png" },
+  { name: "pacman", url: "random/pacman.png" },
+  { name: "leaf", url: "random/leaf.png" },
+  { name: "mustang", url: "cars/mustang.png" },
+  { name: "santa", url: "random/santa.png" },
+  { name: "scene", url: "random/scene.png" },
+  { name: "thumb", url: "random/thumb.png" },
+  { name: "work", url: "random/work.png" },
+];
+
 const blockTypeData = {
   animals: animals,
   birds: birds,
   cars: cars,
+  random: random,
 };
 
 export { gameLevels, birds, animals, cars, blockTypeData };

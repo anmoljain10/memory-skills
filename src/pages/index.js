@@ -9,7 +9,7 @@ import Modal from "@/components/modal";
 import { faVolumeMute, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const allBlockTypes = ["animals", "birds", "cars"];
+const allBlockTypes = ["animals", "birds", "cars", "random"];
 
 export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
@@ -117,7 +117,7 @@ export default function Home() {
   }, []);
 
   function generateBlockType() {
-    const randomIndex = Math.round(Math.random() * 2);
+    const randomIndex = Math.round(Math.random() * 3);
     setBlocksType(allBlockTypes[randomIndex]);
   }
 

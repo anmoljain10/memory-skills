@@ -9,12 +9,12 @@ const Board = ({
   updateBlocks,
   peekTimeStarted,
   blocksType,
+  gameOverTime,
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
   const flipSound = new Audio("/click-button.mp3");
   const successSound = new Audio("/success.mp3");
-  const wrongSound = new Audio("/wrong.mp3");
 
   useEffect(() => {
     if (selectedItem1 && selectedItem2) {
@@ -47,7 +47,29 @@ const Board = ({
   }
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto relative">
+      <div
+        className="absolute bg-white top-2 rounded p-3"
+        style={{ right: gameLevel.level === "easy" ? "-20%" : "-15%" }}
+      >
+        <div class="font-bold text-center">
+          <div
+            class={`text-xl ${
+              gameOverTime < 5 ? "text-red-500 time-left" : "text-green-500"
+            }`}
+          >
+            Time left
+          </div>
+          <div
+            class={`text-4xl text-transition ${
+              gameOverTime < 5 ? "text-red-600" : "text-green-600"
+            }`}
+          >
+            {gameOverTime}
+          </div>
+        </div>
+      </div>
+
       <div
         className="board-container"
         style={{

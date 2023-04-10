@@ -35,6 +35,10 @@ export default function Home() {
     typeof Audio !== "undefined" ? new Audio("./good.mp3") : undefined
   );
 
+  const startSound = useRef(
+    typeof Audio !== "undefined" ? new Audio("./game-start.mp3") : undefined
+  );
+
   useEffect(() => {
     if (timerStarted) {
       timer.current = setInterval(() => {
@@ -57,7 +61,10 @@ export default function Home() {
       clearInterval(timer.current);
       startPeekTimer(false);
       startGame(true);
-      clockSound.current?.play();
+      startSound.current?.play();
+      setTimeout(() => {
+        clockSound.current?.play();
+      }, 50);
     }
   }, [peekTime]);
 
@@ -129,7 +136,7 @@ export default function Home() {
     if (selectedBlocks.result === "FAIL") {
       // setScore((score) => score - 1);
       setGameOverTime((gameOverTime) =>
-        gameOverTime - 3 <= 0 ? 0 : gameOverTime - 3
+        gameOverTime - 2 <= 0 ? 0 : gameOverTime - 2
       );
     } else {
       setGameOverTime((gameOverTime) => gameOverTime + 2);
@@ -151,12 +158,12 @@ export default function Home() {
   return (
     <div>
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
-        <h1 className="mx-auto text-center text-purple text-8xl pt-4 font-bold">
+        <h1 className="mx-auto text-center text-purple text-8xl pt-10 font-bold text-white">
           Memory skills
         </h1>
         {gameLevel === null && (
           <div class="sm:w-1/4 mx-auto" style={{ marginTop: "10%" }}>
-            <h2 className="text-center text-3xl mb-4">Level</h2>
+            <h2 className="text-center text-3xl mb-4 font-bungee">Level</h2>
             <div class="p-5 rounded">
               <GameLevels
                 gameLevels={gameLevels}
@@ -166,7 +173,7 @@ export default function Home() {
           </div>
         )}
         {gameLevel !== null && blocks.length && (
-          <div class="grid lg:grid-cols-2 mt-10">
+          <div class="flex flex-wrap gap-5 mt-10">
             <Board
               gameStarted={gameStarted}
               gameLevel={gameLevel}
@@ -174,53 +181,37 @@ export default function Home() {
               blocksType={blocksType}
               peekTimeStarted={timerStarted}
               updateBlocks={(selectedBlocks) => checkBlocks(selectedBlocks)}
+              gameOverTime={gameOverTime}
             />
-            <div>
-              {gameStarted && (
-                <div
-                  class="text-4xl font-bold text-center"
-                  style={{ marginTop: "30%" }}
+
+            <div className="flex items-end">
+              <div class="mt-5">
+                <h3
+                  class="text-4xl font-bold font-bungee"
+                  style={{ color: "#862d59" }}
                 >
-                  <div
-                    class={`text-5xl ${
-                      gameOverTime < 5 ? "text-red-500 time-left" : ""
-                    }`}
+                  Rules
+                </h3>
+                <GameRules gameLevel={gameLevel} />
+                <div className="controls mt-5">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    onClick={() => startPeekTimer(true)}
                   >
-                    Time left
-                  </div>
-                  <div
-                    class={`text-7xl text-transition ${
-                      gameOverTime < 5 ? "text-red-500" : ""
-                    }`}
+                    Start
+                  </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => setGameLevel(null)}
                   >
-                    {gameOverTime}
-                  </div>
+                    Reset
+                  </button>
                 </div>
-              )}
+              </div>
               {timerStarted && (
                 <div class="font-bold">
                   <div class="text-white text-4xl text-center">Starting in</div>
                   <div class="text-white text-6xl text-center">{peekTime}</div>
-                </div>
-              )}
-              {!gameStarted && !timerStarted && (
-                <div class="mt-5" style={{ marginTop: "30%" }}>
-                  <h3 class="text-4xl font-bold">Rules:</h3>
-                  <GameRules gameLevel={gameLevel} />
-                  <div className="controls mt-5">
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                      onClick={() => startPeekTimer(true)}
-                    >
-                      Start
-                    </button>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => setGameLevel(null)}
-                    >
-                      Reset
-                    </button>
-                  </div>
                 </div>
               )}
             </div>
@@ -233,7 +224,7 @@ export default function Home() {
             <div className="win-body">
               <h1>You Win!</h1>
               <img
-                src="win.png"
+                src="prize.gif"
                 className="mx-auto"
                 style={{ height: "auto", width: "100px" }}
               />

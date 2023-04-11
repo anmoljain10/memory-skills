@@ -1,13 +1,13 @@
 const GameLevels = ({ gameLevels, onLevelSelect }) => {
   return (
-    <div class="lg:w-1/3 xl:w-1/4 mx-auto" style={{ marginTop: "10%" }}>
+    <div className="lg:w-1/3 xl:w-1/4 mx-auto" style={{ marginTop: "10%" }}>
       <h2
         className="text-center text-3xl mb-4 font-bungee"
         style={{ color: "#602040" }}
       >
         Level
       </h2>
-      <div class="p-5 rounded">
+      <div className="p-5 rounded">
         <ul className="list-none text-white">
           {gameLevels.map((item, index) => {
             return (

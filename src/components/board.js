@@ -57,16 +57,16 @@ const Board = ({
         className="absolute bg-white top-2 rounded p-3"
         style={{ right: gameLevel.level === "easy" ? "-20%" : "-15%" }}
       >
-        <div class="font-bold text-center">
+        <div className="font-bold text-center">
           <div
-            class={`sm:text-xl ${
+            className={`sm:text-xl ${
               gameOverTime < 10 ? "text-red-500 time-left" : "text-green-500"
             }`}
           >
             Time left
           </div>
           <div
-            class={`sm:text-4xl text-transition ${
+            className={`sm:text-4xl text-transition ${
               gameOverTime < 10 ? "text-red-600" : "text-green-600"
             }`}
           >
@@ -76,8 +76,10 @@ const Board = ({
       </div>
       {peekTimerStarted && (
         <div className="absolute left-0 -top-7 rounded bg-white px-5">
-          <div class="font-bold">
-            <div class=" text-xl text-center">Starting in : {peekTime}s</div>
+          <div className="font-bold">
+            <div className=" text-xl text-center">
+              Starting in : {peekTime}s
+            </div>
           </div>
         </div>
       )}

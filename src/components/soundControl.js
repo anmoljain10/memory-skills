@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SoundControl = ({ soundOn, onSoundToggle }) => {
   return (
-    <div class="absolute right-10 bottom-10">
+    <div className="absolute right-10 bottom-10">
       <FontAwesomeIcon
         icon={soundOn ? faVolumeUp : faVolumeMute}
         fontSize={40}

@@ -8,9 +8,9 @@ const GameRules = ({
   peekTimerStarted,
 }) => {
   return (
-    <div class="mt-5">
+    <div className="mt-5">
       <h3
-        class="text-2xl sm:text-4xl text-center sm:text-start font-bold font-bungee"
+        className="text-2xl sm:text-4xl text-center sm:text-start font-bold font-bungee"
         style={{ color: "#862d59" }}
       >
         Rules

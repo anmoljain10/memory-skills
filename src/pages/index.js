@@ -191,7 +191,7 @@ export default function Home() {
   }, [gamePaused]);
 
   return (
-    <div class="px-5">
+    <div class="px-5 pb-5">
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
         <h1 className="mx-auto text-center text-purple text-4xl sm:text-6xl md:text-7xl lg:text-8xl pt-10 font-bold text-white font-bungee">
           Memory skills

@@ -6,7 +6,7 @@ const Modal = ({ isVisible, children, onModalClose }) => {
       }`}
     >
       <div className="flex items-center h-screen  w-screen">
-        <div className="modal-body bg-white md:w-1/3  mx-auto my-auto rounded">
+        <div className="modal-body bg-white w-80 md:w-1/3 mx-auto my-auto rounded">
           {children}
         </div>
       </div>

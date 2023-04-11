@@ -52,21 +52,21 @@ const Board = ({
   }
 
   return (
-    <div className="mx-auto relative">
+    <div className="sm:mx-auto relative">
       <div
         className="absolute bg-white top-2 rounded p-3"
         style={{ right: gameLevel.level === "easy" ? "-20%" : "-15%" }}
       >
         <div class="font-bold text-center">
           <div
-            class={`text-xl ${
+            class={`sm:text-xl ${
               gameOverTime < 10 ? "text-red-500 time-left" : "text-green-500"
             }`}
           >
             Time left
           </div>
           <div
-            class={`text-4xl text-transition ${
+            class={`sm:text-4xl text-transition ${
               gameOverTime < 10 ? "text-red-600" : "text-green-600"
             }`}
           >

@@ -14,7 +14,7 @@ export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [gameStarted, startGame] = useState(false);
-  const [timerStarted, startPeekTimer] = useState(false);
+  const [peekTimerStarted, startPeekTimer] = useState(false);
   const [peekTime, setPeekTime] = useState(10);
   const [score, setScore] = useState(0);
   const [blocksType, setBlocksType] = useState("");
@@ -43,12 +43,12 @@ export default function Home() {
   );
 
   useEffect(() => {
-    if (timerStarted) {
+    if (peekTimerStarted) {
       timer.current = setInterval(() => {
         setPeekTime((peekTime) => peekTime - 1);
       }, 1000);
     }
-  }, [timerStarted]);
+  }, [peekTimerStarted]);
 
   useEffect(() => {
     gameOverTimer.current = setInterval(() => {
@@ -223,11 +223,11 @@ export default function Home() {
               gameLevel={gameLevel}
               blocks={blocks}
               blocksType={blocksType}
-              peekTimeStarted={timerStarted}
+              peekTimeStarted={peekTimerStarted}
               updateBlocks={(selectedBlocks) => checkBlocks(selectedBlocks)}
               gameOverTime={gameOverTime}
               soundOn={soundOn}
-              timerStarted={timerStarted}
+              peekTimerStarted={peekTimerStarted}
               peekTime={peekTime}
             />
 
@@ -237,7 +237,7 @@ export default function Home() {
                 onChooseLevel={onChooseLevel}
                 onGamePaused={setGamePaused}
                 gamePaused={gamePaused}
-                timerStarted={timerStarted}
+                peekTimerStarted={peekTimerStarted}
                 gameStarted={gameStarted}
                 onPeekTimeStart={() => startPeekTimer(true)}
               />

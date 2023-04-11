@@ -11,7 +11,7 @@ const Board = ({
   blocksType,
   gameOverTime,
   soundOn,
-  timerStarted,
+  peekTimerStarted,
   peekTime,
 }) => {
   const [selectedItem1, setSelectedItem1] = useState(null);
@@ -74,7 +74,7 @@ const Board = ({
           </div>
         </div>
       </div>
-      {timerStarted && (
+      {peekTimerStarted && (
         <div className="absolute left-0 -top-7 rounded bg-white px-5">
           <div class="font-bold">
             <div class=" text-xl text-center">Starting in : {peekTime}s</div>

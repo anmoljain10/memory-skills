@@ -5,7 +5,7 @@ const GameRules = ({
   onPeekTimeStart,
   gamePaused,
   gameStarted,
-  timerStarted,
+  peekTimerStarted,
 }) => {
   return (
     <div class="mt-5">
@@ -28,7 +28,7 @@ const GameRules = ({
         </li>
         <li>5. Player matching all the blocks before time wins the game!</li>
       </ul>
-      {!timerStarted && !gameStarted && (
+      {!peekTimerStarted && !gameStarted && (
         <div className="controls mt-5">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"

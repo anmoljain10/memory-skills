@@ -8,7 +8,7 @@ import { initializeBlocks } from "@/utils/initBlocks";
 import Modal from "@/components/modal";
 import SoundControl from "@/components/soundControl";
 
-const allBlockTypes = ["animals", "birds", "cars", "random"];
+const allBlockTypes = ["animals", "birds", "cars", "random", "food"];
 
 export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
@@ -129,7 +129,7 @@ export default function Home() {
   }, []);
 
   function generateBlockType() {
-    const randomIndex = Math.round(Math.random() * 3);
+    const randomIndex = Math.round(Math.random() * 4);
     setBlocksType(allBlockTypes[randomIndex]);
   }
 

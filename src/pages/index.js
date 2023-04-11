@@ -248,7 +248,9 @@ export default function Home() {
           <div className="p-10 text-center">
             {result === "WIN" ? (
               <div className="win-body">
-                <h1>You Win!</h1>
+                <h1 className="font-bungee text-3xl text-my-purple">
+                  You Win!
+                </h1>
                 <img
                   src="prize.gif"
                   className="mx-auto"
@@ -268,7 +270,9 @@ export default function Home() {
               </div>
             ) : (
               <div className="lose-body">
-                <h1>Game Over!</h1>
+                <h1 className="font-bungee text-3xl text-my-purple">
+                  Game Over!
+                </h1>
                 <img
                   src="ghost.png"
                   className="mx-auto"

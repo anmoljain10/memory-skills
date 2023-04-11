@@ -192,9 +192,9 @@ export default function Home() {
   }, [gamePaused]);
 
   return (
-    <div>
+    <div class="px-5">
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
-        <h1 className="mx-auto text-center text-purple text-8xl pt-10 font-bold text-white">
+        <h1 className="mx-auto text-center text-purple text-4xl sm:text-8xl pt-10 font-bold text-white font-bungee">
           Memory skills
         </h1>
         {gameLevel === null && (
@@ -231,7 +231,7 @@ export default function Home() {
             <div className="flex items-end">
               <div class="mt-5">
                 <h3
-                  class="text-4xl font-bold font-bungee"
+                  class="text-2xl sm:text-4xl text-center sm:text-start font-bold font-bungee"
                   style={{ color: "#862d59" }}
                 >
                   Rules

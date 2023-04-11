@@ -9,6 +9,13 @@
   border-width: 1px;
 }
 
+@media screen and (max-width: 576px) {
+  .flip-container {
+    width: 60px;
+    height: 60px;
+  }
+}
+
 .flip-container.hover .flipper {
   -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
@@ -29,6 +36,11 @@
   transition: 0.6s;
   transform-style: preserve-3d;
   position: relative;
+}
+
+.flip-container img {
+  height: auto;
+  width: auto;
 }
 
 .front,

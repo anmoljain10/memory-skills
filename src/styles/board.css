@@ -6,3 +6,12 @@
   border-radius: 10px;
   border-color: #8b4513;
 }
+
+@media screen and (max-width: 576px) {
+  .board-container {
+    display: grid;
+    /* grid-template-columns: 4; */
+    grid-template-rows: 4;
+    grid-template-columns: auto auto auto auto;
+  }
+}

@@ -35,21 +35,14 @@ const Block = ({
               ? `${value?.url}`
               : `${blocksType}/block-cover.png`
           }
-          style={{ height: "100px", width: "100px" }}
         />
       ) : (
         <div className="flipper">
           <div className={`front  ${gameStarted ? "started" : ""}`}>
-            <img
-              src={`${blocksType}/block-cover.png`}
-              style={{ height: "100px", width: "100px", padding: "2px" }}
-            />
+            <img src={`${blocksType}/block-cover.png`} />
           </div>
           <div className={`back  ${gameStarted ? "started" : ""}`}>
-            <img
-              src={`${value?.url}`}
-              style={{ height: "100px", width: "100px" }}
-            />
+            <img src={`${value?.url}`} />
           </div>
         </div>
       )}

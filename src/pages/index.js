@@ -6,8 +6,7 @@ import GameRules from "@/components/gameRules";
 import GameLevels from "@/components/gameLevels";
 import { initializeBlocks } from "@/utils/initBlocks";
 import Modal from "@/components/modal";
-import { faVolumeMute, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SoundControl from "@/components/soundControl";
 
 const allBlockTypes = ["animals", "birds", "cars", "random"];
 
@@ -194,24 +193,14 @@ export default function Home() {
   return (
     <div class="px-5">
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
-        <h1 className="mx-auto text-center text-purple text-4xl sm:text-8xl pt-10 font-bold text-white font-bungee">
+        <h1 className="mx-auto text-center text-purple text-4xl sm:text-6xl md:text-7xl lg:text-8xl pt-10 font-bold text-white font-bungee">
           Memory skills
         </h1>
         {gameLevel === null && (
-          <div class="sm:w-1/4 mx-auto" style={{ marginTop: "10%" }}>
-            <h2
-              className="text-center text-3xl mb-4 font-bungee"
-              style={{ color: "#602040" }}
-            >
-              Level
-            </h2>
-            <div class="p-5 rounded">
-              <GameLevels
-                gameLevels={gameLevels}
-                onLevelSelect={(level) => setGameLevel(level)}
-              />
-            </div>
-          </div>
+          <GameLevels
+            gameLevels={gameLevels}
+            onLevelSelect={(level) => setGameLevel(level)}
+          />
         )}
         {gameLevel !== null && blocks.length && (
           <div class="flex flex-wrap gap-5 mt-10">
@@ -229,103 +218,66 @@ export default function Home() {
             />
 
             <div className="flex items-end">
-              <div class="mt-5">
-                <h3
-                  class="text-2xl sm:text-4xl text-center sm:text-start font-bold font-bungee"
-                  style={{ color: "#862d59" }}
-                >
-                  Rules
-                </h3>
-                <GameRules gameLevel={gameLevel} />
-                {!timerStarted && !gameStarted && (
-                  <div className="controls mt-5">
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                      onClick={() => startPeekTimer(true)}
-                    >
-                      Start
-                    </button>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => onChooseLevel()}
-                    >
-                      New Game
-                    </button>
-                  </div>
-                )}
-                {gameStarted && (
-                  <div className="controls mt-5">
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                      onClick={() => setGamePaused((gamePaused) => !gamePaused)}
-                    >
-                      {gamePaused ? "Resume" : "Pause"}
-                    </button>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => onChooseLevel()}
-                    >
-                      New Game
-                    </button>
-                  </div>
-                )}
-              </div>
+              <GameRules
+                gameLevel={gameLevel}
+                onChooseLevel={onChooseLevel}
+                onGamePaused={setGamePaused}
+                gamePaused={gamePaused}
+                timerStarted={timerStarted}
+                gameStarted={gameStarted}
+                onPeekTimeStart={() => startPeekTimer(true)}
+              />
             </div>
           </div>
         )}
-      </div>
-      <Modal isVisible={showResModal}>
-        <div className="p-10 text-center">
-          {result === "WIN" ? (
-            <div className="win-body">
-              <h1>You Win!</h1>
-              <img
-                src="prize.gif"
-                className="mx-auto"
-                style={{ height: "auto", width: "100px" }}
-              />
-              <div className="controls mt-5">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  onClick={() => {
-                    onChooseLevel();
-                    setResModalVisible(false);
-                  }}
-                >
-                  New Game
-                </button>
+        <Modal isVisible={showResModal}>
+          <div className="p-10 text-center">
+            {result === "WIN" ? (
+              <div className="win-body">
+                <h1>You Win!</h1>
+                <img
+                  src="prize.gif"
+                  className="mx-auto"
+                  style={{ height: "auto", width: "100px" }}
+                />
+                <div className="controls mt-5">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    onClick={() => {
+                      onChooseLevel();
+                      setResModalVisible(false);
+                    }}
+                  >
+                    New Game
+                  </button>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="lose-body">
-              <h1>Game Over!</h1>
-              <img
-                src="ghost.png"
-                className="mx-auto"
-                style={{ height: "auto", width: "100px" }}
-              />
-              <div className="controls mt-5">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  onClick={() => {
-                    onChooseLevel();
-                    setResModalVisible(false);
-                  }}
-                >
-                  New Game
-                </button>
+            ) : (
+              <div className="lose-body">
+                <h1>Game Over!</h1>
+                <img
+                  src="ghost.png"
+                  className="mx-auto"
+                  style={{ height: "auto", width: "100px" }}
+                />
+                <div className="controls mt-5">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    onClick={() => {
+                      onChooseLevel();
+                      setResModalVisible(false);
+                    }}
+                  >
+                    New Game
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      </Modal>
-      <div class="absolute right-10 bottom-10">
-        <FontAwesomeIcon
-          icon={soundOn ? faVolumeUp : faVolumeMute}
-          fontSize={40}
-          color={"white"}
-          className="cursor-pointer"
-          onClick={() => setSoundOn((soundOn) => !soundOn)}
+            )}
+          </div>
+        </Modal>
+        <SoundControl
+          soundOn={soundOn}
+          onSoundToggle={(soundOn) => setSoundOn(soundOn)}
         />
       </div>
     </div>

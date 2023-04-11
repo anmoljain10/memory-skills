@@ -22,15 +22,16 @@ const Board = ({
   useEffect(() => {
     if (selectedItem1 && selectedItem2) {
       if (selectedItem2?.value?.name === selectedItem1?.value?.name) {
-        console.log("Its a match");
         if (soundOn) {
           successSound.play();
         }
-        updateBlocks({
-          block1: selectedItem1,
-          block2: selectedItem2,
-          result: "PASS",
-        });
+        setTimeout(() => {
+          updateBlocks({
+            block1: selectedItem1,
+            block2: selectedItem2,
+            result: "PASS",
+          });
+        }, 1000);
       } else {
         setTimeout(() => {
           document.getElementById(selectedItem2.id).classList.remove("hover");

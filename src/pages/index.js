@@ -108,6 +108,19 @@ export default function Home() {
   }, [gameOverTime]);
 
   useEffect(() => {
+    const anyUnmatchedBlocks = find(blocks, { found: false });
+    if (!anyUnmatchedBlocks && gameStarted) {
+      setResult("WIN");
+      clearInterval(gameOverTimer.current);
+      if (soundOn) {
+        clockSound?.current?.pause();
+        winSound.current?.play();
+      }
+      setResModalVisible(true);
+    }
+  }, [blocks]);
+
+  useEffect(() => {
     resetGame();
   }, [gameLevel]);
 
@@ -155,6 +168,7 @@ export default function Home() {
 
   function checkBlocks(selectedBlocks) {
     console.log(blocks);
+    console.log(selectedBlocks, "selected");
     if (selectedBlocks.result === "FAIL") {
       // setScore((score) => score - 1);
       setGameOverTime((gameOverTime) =>
@@ -165,8 +179,8 @@ export default function Home() {
       // setScore((score) => score + 1);
       const updatedBlocks = blocks.map((item) => {
         if (
-          item.value.id === selectedBlocks.block1.id ||
-          item.value.id === selectedBlocks.block2.id
+          item.id === selectedBlocks.block1.id ||
+          item.id === selectedBlocks.block2.id
         ) {
           return { ...item, found: true };
         }

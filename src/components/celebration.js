@@ -4,8 +4,8 @@ const Celebration = () => {
   ];
   return (
     <>
-      {confettiPieces.map(() => {
-        return <div class="confetti-piece"></div>;
+      {confettiPieces.map((item, index) => {
+        return <div class="confetti-piece" key={index}></div>;
       })}
     </>
   );

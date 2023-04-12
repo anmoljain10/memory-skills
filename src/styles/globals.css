@@ -4,7 +4,8 @@
 
 @font-face {
   font-family: Bungee-Regular;
-  src: url("/Bungee-regular.ttf");
+  src: url("/Bungee-Regular.ttf");
+  font-display: swap;
 }
 
 :root {

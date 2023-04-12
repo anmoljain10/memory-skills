@@ -5,6 +5,7 @@ import Board from "@/components/board";
 import GameRules from "@/components/gameRules";
 import GameLevels from "@/components/gameLevels";
 import { initializeBlocks } from "@/utils/initBlocks";
+import Celebration from "@/components/celebration";
 import Modal from "@/components/modal";
 import SoundControl from "@/components/soundControl";
 
@@ -298,6 +299,7 @@ export default function Home() {
           onSoundToggle={(soundOn) => setSoundOn(soundOn)}
         />
       </div>
+      {result === "WIN" && <Celebration />}
     </div>
   );
 }

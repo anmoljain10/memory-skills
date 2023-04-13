@@ -78,7 +78,7 @@ const Board = ({
       {peekTimerStarted && (
         <div className="absolute left-0 -top-7 rounded bg-white px-5">
           <div className="font-bold">
-            <div className=" text-xl text-center">
+            <div className=" text-xl text-center text-my-purple">
               Starting in : {peekTime}s
             </div>
           </div>

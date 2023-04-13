@@ -8,12 +8,12 @@ const gameLevels = [
     gameOverTime: 40,
   },
   {
-    level: "medium",
+    level: "hard",
     rows: 6,
     columns: 6,
     name: "6x6",
     peekTime: 20,
-    gameOverTime: 80,
+    gameOverTime: 90,
   },
 ];
 

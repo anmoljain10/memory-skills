@@ -8,6 +8,7 @@ import { initializeBlocks } from "@/utils/initBlocks";
 import Celebration from "@/components/celebration";
 import Modal from "@/components/modal";
 import SoundControl from "@/components/soundControl";
+import { useGameSounds } from "@/hooks/useGameSounds";
 
 const allBlockTypes = ["animals", "birds", "cars", "random", "food"];
 
@@ -27,21 +28,7 @@ export default function Home() {
   const [soundOn, setSoundOn] = useState(true);
   const [gamePaused, setGamePaused] = useState(false);
 
-  const clockSound = useRef(
-    typeof Audio !== "undefined" ? new Audio("./ticking-clock.mp3") : undefined
-  );
-
-  const loseSound = useRef(
-    typeof Audio !== "undefined" ? new Audio("./wrong.mp3") : undefined
-  );
-
-  const winSound = useRef(
-    typeof Audio !== "undefined" ? new Audio("./good.mp3") : undefined
-  );
-
-  const startSound = useRef(
-    typeof Audio !== "undefined" ? new Audio("./game-start.mp3") : undefined
-  );
+  const { startSound, winSound, loseSound, clockSound } = useGameSounds();
 
   useEffect(() => {
     if (peekTimerStarted) {
@@ -259,7 +246,7 @@ export default function Home() {
                 />
                 <div className="controls mt-5">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    className="bg-pink-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded mr-2"
                     onClick={() => {
                       onChooseLevel();
                       setResModalVisible(false);
@@ -281,7 +268,7 @@ export default function Home() {
                 />
                 <div className="controls mt-5">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    className="bg-pink-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded mr-2"
                     onClick={() => {
                       onChooseLevel();
                       setResModalVisible(false);

@@ -53,9 +53,9 @@ const Board = ({
   }
 
   return (
-    <div className="sm:mx-auto relative">
+    <div className="sm:mx-auto relative shadow-xl">
       <div
-        className="absolute bg-white top-2 rounded p-3"
+        className="absolute bg-white top-2 rounded p-3 z-2 shadow-lg"
         style={{ right: gameLevel.level === "easy" ? "-20%" : "-15%" }}
       >
         <div className="font-bold text-center">

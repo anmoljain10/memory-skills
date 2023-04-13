@@ -9,6 +9,7 @@ import Celebration from "@/components/celebration";
 import Modal from "@/components/modal";
 import SoundControl from "@/components/soundControl";
 import { useGameSounds } from "@/hooks/useGameSounds";
+import Head from "next/head";
 
 export default function Home() {
   const [gameLevel, setGameLevel] = useState(null);
@@ -192,6 +193,13 @@ export default function Home() {
 
   return (
     <div className="px-5 pb-5">
+      <Head>
+        <title>Memory Skills</title>
+        <meta
+          name="description"
+          content="A cool game to test your memory skills."
+        />
+      </Head>
       <div className="container mx-auto" style={{ minHeight: "100vh" }}>
         <h1 className="mx-auto text-center text-purple text-4xl sm:text-6xl md:text-7xl lg:text-8xl pt-10 font-bold text-white font-bungee">
           Memory skills

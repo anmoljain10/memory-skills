@@ -103,4 +103,6 @@ const blockTypeData = {
   food: food,
 };
 
-export { gameLevels, birds, animals, cars, food, blockTypeData };
+const allBlockTypes = ["animals", "birds", "cars", "random", "food"];
+
+export { gameLevels, birds, animals, cars, food, blockTypeData, allBlockTypes };

@@ -238,7 +238,7 @@ export default function Home() {
                 </h1>
                 <h4 class="text-lg font-bungee text-my-purple">
                   {score > 0 ? "Bravo 🥳" : "Nice 😅"} your score is {score}
-                  {score === 1 ? "point" : "points"}!
+                  {score === 1 ? " point" : " points"}!
                 </h4>
                 <img
                   src="prize.gif"

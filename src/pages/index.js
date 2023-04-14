@@ -26,7 +26,7 @@ export default function Home() {
   const [peekTimerStarted, startPeekTimer] = useState(false);
   const [peekTime, setPeekTime] = useState(10);
   const [score, setScore] = useState(0);
-  const [gameOverTime, setGameOverTime] = useState(0);
+  const [gameOverTime, setGameOverTime] = useState(null);
   const timer = useRef(null);
   const gameOverTimer = useRef(null);
   const [result, setResult] = useState(null);
@@ -87,6 +87,7 @@ export default function Home() {
 
   useEffect(() => {
     const anyUnmatchedBlocks = find(blocks, { found: false });
+    console.log(anyUnmatchedBlocks, "any left");
     if (gameOverTime === 0 && gameStatus === "STARTED") {
       if (anyUnmatchedBlocks) {
         setResult("LOSE");
@@ -124,7 +125,9 @@ export default function Home() {
   }, [blocks]);
 
   useEffect(() => {
-    resetGame();
+    if (gameLevel !== null) {
+      resetGame();
+    }
   }, [gameLevel]);
 
   function resetGame() {
@@ -236,7 +239,7 @@ export default function Home() {
                 <h1 className="font-bungee text-3xl text-my-purple">
                   You Win!
                 </h1>
-                <h4 class="text-lg font-bungee text-my-purple">
+                <h4 className="mt-1 text-lg font-bungee text-my-purple">
                   {score > 0 ? "Bravo 🥳" : "Nice 😅"} your score is {score}
                   {score === 1 ? " point" : " points"}!
                 </h4>

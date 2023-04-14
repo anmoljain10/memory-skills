@@ -2,7 +2,7 @@ const Block = ({
   value,
   title,
   id,
-  gameStarted = false,
+  gameStatus,
   found,
   onBlockSelected,
   peekTimeStarted,
@@ -12,10 +12,10 @@ const Block = ({
 }) => {
   return (
     <div
-      className={`flip-container ${gameStarted ? "cursor-pointer" : ""}`}
+      className={`flip-container ${gameStatus ? "cursor-pointer" : ""}`}
       id={id}
       onClick={(e) => {
-        if (gameStarted && !found) {
+        if (gameStatus && !found) {
           try {
             document.getElementById(id).classList.add("hover");
             if (soundOn) {
@@ -28,7 +28,7 @@ const Block = ({
         }
       }}
     >
-      {!gameStarted || found || peekTimeStarted ? (
+      {!gameStatus || found || peekTimeStarted ? (
         <img
           src={
             peekTimeStarted || found
@@ -38,10 +38,10 @@ const Block = ({
         />
       ) : (
         <div className="flipper">
-          <div className={`front  ${gameStarted ? "started" : ""}`}>
+          <div className={`front  ${gameStatus ? "started" : ""}`}>
             <img src={`${blocksType}/block-cover.png`} />
           </div>
-          <div className={`back  ${gameStarted ? "started" : ""}`}>
+          <div className={`back  ${gameStatus ? "started" : ""}`}>
             <img src={`${value?.url}`} />
           </div>
         </div>

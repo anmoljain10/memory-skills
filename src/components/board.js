@@ -4,7 +4,7 @@ import Block from "./block";
 const Board = ({
   gameLevel,
   blocks,
-  gameStarted,
+  gameStatus,
   startLookTimer,
   updateBlocks,
   peekTimeStarted,
@@ -101,7 +101,7 @@ const Board = ({
               value={value}
               id={id}
               found={found}
-              gameStarted={gameStarted}
+              gameStatus={gameStatus}
               onBlockSelected={onBlockSelected}
               peekTimeStarted={peekTimeStarted}
               blocksType={blocksType}

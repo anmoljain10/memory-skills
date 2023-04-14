@@ -1,10 +1,9 @@
 const GameRules = ({
   gameLevel,
-  onGamePaused,
+  onGameStatusChange,
   onChooseLevel,
   onPeekTimeStart,
-  gamePaused,
-  gameStarted,
+  gameStatus,
   peekTimerStarted,
 }) => {
   return (
@@ -28,7 +27,7 @@ const GameRules = ({
         </li>
         <li>5. Player matching all the blocks before time wins the game!</li>
       </ul>
-      {!peekTimerStarted && !gameStarted && (
+      {!peekTimerStarted && !gameStatus && (
         <div className="controls mt-5">
           <button
             className="bg-pink-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded mr-2"
@@ -44,13 +43,15 @@ const GameRules = ({
           </button>
         </div>
       )}
-      {gameStarted && (
+      {gameStatus && (
         <div className="controls mt-5">
           <button
             className="bg-pink-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded mr-2"
-            onClick={() => onGamePaused()}
+            onClick={() =>
+              onGameStatusChange(gameStatus === "PAUSED" ? "STARTED" : "PAUSED")
+            }
           >
-            {gamePaused ? "Resume" : "Pause"}
+            {gameStatus === "PAUSED" ? "Resume" : "Pause"}
           </button>
           <button
             className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"

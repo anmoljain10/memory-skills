@@ -10,22 +10,28 @@ import Modal from "@/components/modal";
 import SoundControl from "@/components/soundControl";
 import { useGameSounds } from "@/hooks/useGameSounds";
 import Head from "next/head";
+import { useGameLevel } from "@/hooks/useGameLevel";
 
 export default function Home() {
-  const [gameLevel, setGameLevel] = useState(null);
-  const [blocks, setBlocks] = useState([]);
-  const [gameStarted, startGame] = useState(false);
+  const {
+    gameLevel,
+    setGameLevel,
+    blocksType,
+    blocks,
+    setBlocks,
+    gameStatus,
+    setGameStatus,
+  } = useGameLevel();
+
   const [peekTimerStarted, startPeekTimer] = useState(false);
   const [peekTime, setPeekTime] = useState(10);
   const [score, setScore] = useState(0);
-  const [blocksType, setBlocksType] = useState("");
   const [gameOverTime, setGameOverTime] = useState(0);
   const timer = useRef(null);
   const gameOverTimer = useRef(null);
   const [result, setResult] = useState(null);
   const [showResModal, setResModalVisible] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
-  const [gamePaused, setGamePaused] = useState(false);
 
   const { startSound, winSound, loseSound, clockSound } = useGameSounds();
 
@@ -37,20 +43,29 @@ export default function Home() {
     }
   }, [peekTimerStarted]);
 
-  useEffect(() => {
+  function startCounter() {
     gameOverTimer.current = setInterval(() => {
       if (gameOverTime > 0) {
         setGameOverTime((gameOverTime) => gameOverTime - 1);
       }
     }, 1000);
-    () => clearInterval(gameOverTime.current);
-  }, [gameStarted]);
+  }
+
+  useEffect(() => {
+    if (gameStatus === "STARTED") {
+      startCounter();
+    } else if (gameStatus === "PAUSED") {
+      clearInterval(gameOverTimer.current);
+      clockSound.current.pause();
+    }
+    () => clearInterval(gameOverTimer.current);
+  }, [gameStatus]);
 
   useEffect(() => {
     if (peekTime === 0) {
       clearInterval(timer.current);
       startPeekTimer(false);
-      startGame(true);
+      setGameStatus("STARTED");
       if (soundOn) {
         startSound.current?.play();
       }
@@ -63,7 +78,7 @@ export default function Home() {
   }, [peekTime]);
 
   useEffect(() => {
-    if (clockSound.current.isPaused && soundOn && gameStarted) {
+    if (clockSound.current.isPaused && soundOn && gameStatus === "STARTED") {
       clockSound.current?.play();
     } else if (!clockSound.current.isPaused && !soundOn) {
       clockSound.current?.pause();
@@ -72,7 +87,7 @@ export default function Home() {
 
   useEffect(() => {
     const anyUnmatchedBlocks = find(blocks, { found: false });
-    if (gameOverTime === 0 && gameStarted) {
+    if (gameOverTime === 0 && gameStatus === "STARTED") {
       if (anyUnmatchedBlocks) {
         setResult("LOSE");
         clearInterval(gameOverTimer.current);
@@ -82,7 +97,7 @@ export default function Home() {
         }
         setResModalVisible(true);
       }
-    } else if (!anyUnmatchedBlocks && gameStarted) {
+    } else if (!anyUnmatchedBlocks && gameStatus === "STARTED") {
       // if player wins
       setResult("WIN");
       clearInterval(gameOverTimer.current);
@@ -96,7 +111,7 @@ export default function Home() {
 
   useEffect(() => {
     const anyUnmatchedBlocks = find(blocks, { found: false });
-    if (!anyUnmatchedBlocks && gameStarted) {
+    if (!anyUnmatchedBlocks && gameStatus === "STARTED") {
       setResult("WIN");
       clearInterval(gameOverTimer.current);
       if (soundOn) {
@@ -111,22 +126,13 @@ export default function Home() {
     resetGame();
   }, [gameLevel]);
 
-  useEffect(() => {
-    generateBlockType();
-  }, []);
-
-  function generateBlockType() {
-    const randomIndex = Math.round(Math.random() * 4);
-    setBlocksType(allBlockTypes[randomIndex]);
-  }
-
   function resetGame() {
     try {
       let gameCards = [];
       const blocksTypeArray = blockTypeData[blocksType];
       gameCards = initializeBlocks({ blocksTypeArray, gameLevel });
       const shuffledArray = shuffle(gameCards);
-      startGame(false);
+      setGameStatus(null);
       startPeekTimer(false);
       setPeekTime(gameLevel.peekTime);
       setBlocks(shuffledArray);
@@ -154,8 +160,6 @@ export default function Home() {
   }
 
   function checkBlocks(selectedBlocks) {
-    console.log(blocks);
-    console.log(selectedBlocks, "selected");
     if (selectedBlocks.result === "FAIL") {
       // setScore((score) => score - 1);
       setGameOverTime((gameOverTime) =>
@@ -173,23 +177,9 @@ export default function Home() {
         }
         return { ...item };
       });
-      console.log(updatedBlocks, "updated");
       setBlocks(updatedBlocks);
     }
   }
-
-  useEffect(() => {
-    if (gamePaused) {
-      clearInterval(gameOverTimer.current);
-      clockSound.current.pause();
-    } else {
-      gameOverTimer.current = setInterval(() => {
-        if (gameOverTime > 0) {
-          setGameOverTime((gameOverTime) => gameOverTime - 1);
-        }
-      }, 1000);
-    }
-  }, [gamePaused]);
 
   return (
     <div className="px-5 pb-5">
@@ -213,7 +203,7 @@ export default function Home() {
         {gameLevel !== null && blocks.length && (
           <div className="flex flex-wrap gap-5 mt-10">
             <Board
-              gameStarted={gameStarted}
+              gameStatus={gameStatus}
               gameLevel={gameLevel}
               blocks={blocks}
               blocksType={blocksType}
@@ -229,10 +219,9 @@ export default function Home() {
               <GameRules
                 gameLevel={gameLevel}
                 onChooseLevel={onChooseLevel}
-                onGamePaused={setGamePaused}
-                gamePaused={gamePaused}
+                onGameStatusChange={(gameStatus) => setGameStatus(gameStatus)}
                 peekTimerStarted={peekTimerStarted}
-                gameStarted={gameStarted}
+                gameStatus={gameStatus}
                 onPeekTimeStart={() => startPeekTimer(true)}
               />
             </div>

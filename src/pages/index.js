@@ -97,7 +97,7 @@ export default function Home() {
         }
         setResModalVisible(true);
       }
-    } else if (!anyUnmatchedBlocks && gameStatus === "STARTED" && score > 0) {
+    } else if (!anyUnmatchedBlocks && gameStatus === "STARTED") {
       // if player wins
       setResult("WIN");
       clearInterval(gameOverTimer.current);
@@ -112,11 +112,7 @@ export default function Home() {
   useEffect(() => {
     const anyUnmatchedBlocks = find(blocks, { found: false });
     if (!anyUnmatchedBlocks && gameStatus === "STARTED") {
-      if (score > 0) {
-        setResult("WIN");
-      } else {
-        setResult("LOSE");
-      }
+      setResult("WIN");
 
       clearInterval(gameOverTimer.current);
       if (soundOn) {
@@ -241,7 +237,7 @@ export default function Home() {
                   You Win!
                 </h1>
                 <h4 class="text-lg font-bungee text-my-purple">
-                  Bravo 🥳 your score is {score}{" "}
+                  {score > 0 ? "Bravo 🥳" : "Nice 😅"} your score is {score}
                   {score === 1 ? "point" : "points"}!
                 </h4>
                 <img

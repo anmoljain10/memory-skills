@@ -26,10 +26,7 @@ const GameRules = ({
           rewarded, for every wrong pair, 2 seconds and 1<br /> point will be
           deducted.
         </li>
-        <li>
-          5. Player matching all the blocks before time and having a positve
-          score wins the game!
-        </li>
+        <li>5. Player matching all the blocks before time wins the game!</li>
       </ul>
       {!peekTimerStarted && !gameStatus && (
         <div className="controls mt-5">

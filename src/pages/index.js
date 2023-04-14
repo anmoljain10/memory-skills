@@ -140,6 +140,7 @@ export default function Home() {
       setGameStatus(null);
       startPeekTimer(false);
       setPeekTime(gameLevel.peekTime);
+      setScore(0);
       setBlocks(shuffledArray);
       setGameOverTime(gameLevel.gameOverTime);
       setResult(null);

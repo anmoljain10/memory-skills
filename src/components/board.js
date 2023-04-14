@@ -31,13 +31,13 @@ const Board = ({
             block2: selectedItem2,
             result: "PASS",
           });
-        }, 1000);
+        }, 500);
       } else {
         setTimeout(() => {
           document.getElementById(selectedItem2.id).classList.remove("hover");
           document.getElementById(selectedItem1.id).classList.remove("hover");
           updateBlocks({ result: "FAIL" });
-        }, 1000);
+        }, 500);
       }
       setSelectedItem1(null);
       setSelectedItem2(null);

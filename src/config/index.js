@@ -24,7 +24,7 @@ const birds = [
   { name: "crow", url: "birds/crow.jpeg" },
   { name: "cute-bird", url: "birds/cute-bird.png" },
   { name: "eagle", url: "birds/eagle.png" },
-  { name: "hummingbird", url: "birds/hummingbird.jpeg" },
+  { name: "hummingbird", url: "birds/hummingbird.png" },
   { name: "angrybird", url: "birds/angrybird.jpeg" },
   { name: "kingfisher", url: "birds/kingfisher.png" },
   { name: "nabird", url: "birds/nabird.webp" },

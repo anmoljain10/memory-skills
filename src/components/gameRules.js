@@ -22,10 +22,14 @@ const GameRules = ({
         <li>2. Click on the image to reveal your selection.</li>
         <li>3. Click on another image to match your selection.</li>
         <li>
-          4. For every matched pair, 2 seconds will be rewarded, for every wrong
-          pair, 2 seconds will be deducted.
+          4. For every matched pair, 2 extra seconds and 1 point will be
+          rewarded, for every wrong pair, 2 seconds and 1<br /> point will be
+          deducted.
         </li>
-        <li>5. Player matching all the blocks before time wins the game!</li>
+        <li>
+          5. Player matching all the blocks before time and having a positve
+          score wins the game!
+        </li>
       </ul>
       {!peekTimerStarted && !gameStatus && (
         <div className="controls mt-5">

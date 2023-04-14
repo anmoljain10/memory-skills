@@ -97,7 +97,7 @@ export default function Home() {
         }
         setResModalVisible(true);
       }
-    } else if (!anyUnmatchedBlocks && gameStatus === "STARTED") {
+    } else if (!anyUnmatchedBlocks && gameStatus === "STARTED" && score > 0) {
       // if player wins
       setResult("WIN");
       clearInterval(gameOverTimer.current);
@@ -112,7 +112,12 @@ export default function Home() {
   useEffect(() => {
     const anyUnmatchedBlocks = find(blocks, { found: false });
     if (!anyUnmatchedBlocks && gameStatus === "STARTED") {
-      setResult("WIN");
+      if (score > 0) {
+        setResult("WIN");
+      } else {
+        setResult("LOSE");
+      }
+
       clearInterval(gameOverTimer.current);
       if (soundOn) {
         clockSound?.current?.pause();
@@ -161,13 +166,13 @@ export default function Home() {
 
   function checkBlocks(selectedBlocks) {
     if (selectedBlocks.result === "FAIL") {
-      // setScore((score) => score - 1);
+      setScore((score) => score - 1);
       setGameOverTime((gameOverTime) =>
         gameOverTime - 2 <= 0 ? 0 : gameOverTime - 2
       );
     } else {
       setGameOverTime((gameOverTime) => gameOverTime + 2);
-      // setScore((score) => score + 1);
+      setScore((score) => score + 1);
       const updatedBlocks = blocks.map((item) => {
         if (
           item.id === selectedBlocks.block1.id ||
@@ -234,6 +239,10 @@ export default function Home() {
                 <h1 className="font-bungee text-3xl text-my-purple">
                   You Win!
                 </h1>
+                <h4 class="text-lg font-bungee text-my-purple">
+                  Bravo 🥳 your score is {score}{" "}
+                  {score === 1 ? "point" : "points"}!
+                </h4>
                 <img
                   src="prize.gif"
                   className="mx-auto"

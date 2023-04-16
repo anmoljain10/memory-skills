@@ -11,8 +11,12 @@
 
 @media screen and (max-width: 576px) {
   .flip-container {
-    width: 60px;
-    height: 60px;
+    width: 17vw;
+    height: 17vw;
+  }
+  .hard-board .flip-container {
+    width: 15vw;
+    height: 15vw;
   }
 }
 

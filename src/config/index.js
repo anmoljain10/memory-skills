@@ -12,7 +12,7 @@ const gameLevels = [
     rows: 6,
     columns: 6,
     name: "6x6",
-    peekTime: 20,
+    peekTime: 25,
     gameOverTime: 90,
   },
 ];

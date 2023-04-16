@@ -7,11 +7,27 @@
   border-color: #8b4513;
 }
 
+.time-left-board-easy {
+  right: -20%;
+}
+
+.time-left-board-hard {
+  right: -15%;
+}
+
 @media screen and (max-width: 576px) {
   .board-container {
     display: grid;
     /* grid-template-columns: 4; */
     grid-template-rows: 4;
     grid-template-columns: auto auto auto auto;
+  }
+  .time-left-board-easy {
+    right: -10%;
+    top: -10%;
+  }
+
+  .time-left-board-hard {
+    right: -15%;
   }
 }

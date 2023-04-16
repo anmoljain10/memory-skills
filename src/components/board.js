@@ -53,10 +53,17 @@ const Board = ({
   }
 
   return (
-    <div className="sm:mx-auto relative shadow-xl">
+    <div
+      className={`sm:mx-auto mt-5 sm:mt-2 relative shadow-xl ${
+        gameLevel.level === "easy" ? "easy-board" : "hard-board"
+      }`}
+    >
       <div
-        className="absolute bg-white top-2 rounded p-3 z-2 shadow-lg"
-        style={{ right: gameLevel.level === "easy" ? "-20%" : "-15%" }}
+        className={`absolute bg-white top-2 rounded p-3 z-2 shadow-lg ${
+          gameLevel.level === "easy"
+            ? "time-left-board-easy"
+            : "time-left-board-hard"
+        }`}
       >
         <div className="font-bold text-center">
           <div

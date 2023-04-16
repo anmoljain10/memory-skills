@@ -43,7 +43,7 @@
 }
 
 .flip-container img,
-.flipper > img {
+.flipper img {
   height: auto;
   width: auto;
 }
@@ -60,8 +60,13 @@
 @media screen and (max-width: 576px) {
   .front,
   .back {
-    height: 60px;
-    width: 60px;
+    height: 17vw;
+    width: 17vw;
+  }
+  .hard-board .front,
+  .hard-board .back {
+    height: 15vw;
+    width: 15vw;
   }
 }
 

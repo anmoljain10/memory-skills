@@ -59,7 +59,7 @@ const Board = ({
       }`}
     >
       <div
-        className={`absolute bg-white top-2 rounded p-3 z-2 shadow-lg ${
+        className={`absolute bg-white top-2 rounded p-3 z-30 shadow-lg ${
           gameLevel.level === "easy"
             ? "time-left-board-easy"
             : "time-left-board-hard"

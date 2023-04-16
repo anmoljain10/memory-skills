@@ -38,10 +38,10 @@ const Block = ({
         />
       ) : (
         <div className="flipper">
-          <div className={`front  ${gameStatus ? "started" : ""}`}>
+          <div className={`front ${gameStatus ? "started" : ""}`}>
             <img src={`${blocksType}/block-cover.png`} />
           </div>
-          <div className={`back  ${gameStatus ? "started" : ""}`}>
+          <div className={`back ${gameStatus ? "started" : ""}`}>
             <img src={`${value?.url}`} />
           </div>
         </div>

@@ -1,7 +1,7 @@
 const Modal = ({ isVisible, children, onModalClose }) => {
   return (
     <div
-      className={`absolute top-0 bottom-0 left-0 right-0 bg-gray-500/25 z-40 w-screen ${
+      className={`absolute top-0 bottom-0 left-0 right-0 bg-black-500/50 z-40 w-screen ${
         isVisible ? "" : "invisible"
       }`}
       style={{ minHeight: "100vh" }}

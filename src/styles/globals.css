@@ -128,3 +128,7 @@ a {
 .font-bungee {
   font-family: Bungee-Regular;
 }
+
+.grayscale {
+  filter: grayscale(50%);
+}

@@ -40,10 +40,11 @@ const Block = ({
           height={100}
           width={100}
           layout={"responsive"}
+          className={`${found ? "grayscale" : ""}`}
         />
       ) : (
         <div className="flipper">
-          <div className={`front ${gameStatus ? "started" : ""}`}>
+          <div className={`front`}>
             <Image
               src={`/${blocksType}/block-cover.png`}
               height={100}
@@ -51,7 +52,7 @@ const Block = ({
               layout={"responsive"}
             />
           </div>
-          <div className={`back ${gameStatus ? "started" : ""}`}>
+          <div className={`back border-5`}>
             <Image
               src={`/${value?.url}`}
               height={100}

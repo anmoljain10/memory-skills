@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Block = ({
   value,
   title,
@@ -29,20 +31,33 @@ const Block = ({
       }}
     >
       {!gameStatus || found || peekTimeStarted ? (
-        <img
+        <Image
           src={
             peekTimeStarted || found
-              ? `${value?.url}`
-              : `${blocksType}/block-cover.png`
+              ? `/${value?.url}`
+              : `/${blocksType}/block-cover.png`
           }
+          height={100}
+          width={100}
+          layout={"responsive"}
         />
       ) : (
         <div className="flipper">
           <div className={`front ${gameStatus ? "started" : ""}`}>
-            <img src={`${blocksType}/block-cover.png`} />
+            <Image
+              src={`/${blocksType}/block-cover.png`}
+              height={100}
+              width={100}
+              layout={"responsive"}
+            />
           </div>
           <div className={`back ${gameStatus ? "started" : ""}`}>
-            <img src={`${value?.url}`} />
+            <Image
+              src={`/${value?.url}`}
+              height={100}
+              width={100}
+              layout={"responsive"}
+            />
           </div>
         </div>
       )}
